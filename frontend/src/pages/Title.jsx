@@ -46,7 +46,7 @@ const Title = () => {
           <motion.div
             className="w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-xl"
             onClick={() => navigate("/login")}
-            whileHover={{ scale: 1.1, rotate: 360 }}
+            whileHover={{ scale: 1.2, rotate: 360 }}
           >
             LOGIN
           </motion.div>
@@ -55,7 +55,7 @@ const Title = () => {
           <motion.div
             className="w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-xl"
             onClick={() => navigate("/signup")}
-            whileHover={{ scale: 1.1, rotate: 360 }}
+            whileHover={{ scale: 1.2, rotate: 360 }}
           >
             SIGNUP
           </motion.div>
