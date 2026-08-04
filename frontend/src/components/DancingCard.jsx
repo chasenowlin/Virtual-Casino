@@ -1,7 +1,10 @@
 import { motion, useAnimate } from "motion/react";
+import { useState, useRef } from "react";
 
 const DancingCard = ({ size, suit }) => {
   const [scope, animate] = useAnimate();
+  const dragging = useRef(false);
+  const waiting = useRef(false);
 
   return (
     <motion.img
@@ -42,6 +45,7 @@ const DancingCard = ({ size, suit }) => {
           ease: "easeInOut",
         },
       }}
+      onDragStart={(e) => (dragging.current = true)}
       onDragEnd={(e) => {
         animate(
           scope.current,
@@ -54,22 +58,28 @@ const DancingCard = ({ size, suit }) => {
             easing: "ease-in-out",
           },
         );
+        dragging.current = false;
 
-        console.log("hi");
-        setTimeout(() => {
-          animate(
-            scope.current,
-            {
-              rotate: [0, 3, -3, 0],
-              y: [0, -5, 0],
-            },
-            {
-              duration: 2,
-              repeat: Infinity,
-              easing: "ease-in-out",
-            },
-          );
-        }, 1500);
+        if (waiting.current === false) {
+          waiting.current = true;
+          setTimeout(() => {
+            if (!dragging.current) {
+              animate(
+                scope.current,
+                {
+                  rotate: [0, 3, -3, 0],
+                  y: [0, -5, 0],
+                },
+                {
+                  duration: 2,
+                  repeat: Infinity,
+                  easing: "ease-in-out",
+                },
+              );
+            }
+            waiting.current = false;
+          }, 2500);
+        }
       }}
       // Exit animation
       exit={{

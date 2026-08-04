@@ -65,7 +65,7 @@ const Title = () => {
                   duration: 2.5,
                   ease: "easeInOut",
                 }}
-                className="font-[Consolas] tracking-wide text-8xl font-semibold text-center p-5 text-sky-700 rounded-4xl border-7 border-black bg-yellow-100/70"
+                className="font-[Consolas] tracking-wide text-8xl font-semibold text-center p-5 text-sky-700 rounded-4xl border-7 border-black bg-yellow-50/70"
               >
                 Virtual Casino
               </motion.div>
@@ -81,7 +81,7 @@ const Title = () => {
               {/* LOGIN chip */}
               <motion.div
                 className="w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
-                onClick={() => changeScreen("signup")}
+                onClick={() => changeScreen("login")}
                 whileHover={{
                   scale: 1.2,
                   rotate: 360,
