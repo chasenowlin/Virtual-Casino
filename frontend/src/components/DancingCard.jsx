@@ -1,15 +1,24 @@
 import { motion, useAnimate } from "motion/react";
 
-const DancingCard = ({ size }) => {
+const DancingCard = ({ size, suit }) => {
   const [scope, animate] = useAnimate();
 
   return (
     <motion.img
-      src="src/assets/card-back.png"
+      src={
+        suit === "s"
+          ? "src/assets/spade-ace.png"
+          : suit === "c"
+            ? "src/assets/club-ace.png"
+            : suit === "h"
+              ? "src/assets/heart-ace.png"
+              : "src/assets/diamond-ace.png"
+      }
       ref={scope}
+      className="border-6 border-black/95 rounded-xl bg-contain bg-no-repeat cursor-pointer"
       style={{
-        width: `${size}px`,
-        height: `${size}px`,
+        width: `${size * 335}px`,
+        height: `${size * 492}px`,
       }}
       // Wiggle and bob animation
       animate={{
@@ -41,10 +50,26 @@ const DancingCard = ({ size }) => {
             scale: 1,
           },
           {
-            duration: 0.6,
+            duration: 0.75,
             easing: "ease-in-out",
           },
         );
+
+        console.log("hi");
+        setTimeout(() => {
+          animate(
+            scope.current,
+            {
+              rotate: [0, 3, -3, 0],
+              y: [0, -5, 0],
+            },
+            {
+              duration: 2,
+              repeat: Infinity,
+              easing: "ease-in-out",
+            },
+          );
+        }, 1500);
       }}
       // Exit animation
       exit={{

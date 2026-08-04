@@ -55,7 +55,7 @@ const Title = () => {
           <div className="w-full min-h-screen text-white flex flex-col items-center justify-center">
             {/* Title and Moving cards */}
             <div className="flex flex-row items-center gap-40 mb-20">
-              <DancingCard size={175} />
+              <DancingCard size={0.4} suit={"s"} />
               <motion.div
                 exit={{
                   scale: 1.3,
@@ -69,18 +69,18 @@ const Title = () => {
               >
                 Virtual Casino
               </motion.div>
-              <DancingCard size={175} />
+              <DancingCard size={0.4} suit={"c"} />
             </div>
 
             <div className="flex flex-row items-center gap-200 mb-30">
-              <DancingCard size={175} />
-              <DancingCard size={175} />
+              <DancingCard size={0.4} suit={"h"} />
+              <DancingCard size={0.4} suit={"d"} />
             </div>
 
             <div className="flex gap-50">
               {/* LOGIN chip */}
               <motion.div
-                className="w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-xl"
+                className="w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
                 onClick={() => changeScreen("signup")}
                 whileHover={{
                   scale: 1.2,
@@ -102,7 +102,7 @@ const Title = () => {
 
               {/* SIGNUP chip */}
               <motion.div
-                className="w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-xl"
+                className="w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
                 onClick={() => changeScreen("signup")}
                 whileHover={{
                   scale: 1.2,
