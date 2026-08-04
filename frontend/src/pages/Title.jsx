@@ -9,9 +9,9 @@ const Title = () => {
     <motion.div
       animate={{
         background: [
-          "radial-gradient(circle at center, #2f4f4f 0%, #1e1e1e 70%)",
-          "radial-gradient(circle at center, #35654d 0%, #1e1e1e 70%)",
-          "radial-gradient(circle at center, #663d3d 0%, #1e1e1e 70%)",
+          "radial-gradient(circle at center, #2f4f4f 0%, #1e1e1e 80%)",
+          "radial-gradient(circle at center, #35654d 0%, #1e1e1e 80%)",
+          "radial-gradient(circle at center, #663d3d 0%, #1e1e1e 80%)",
         ],
       }}
       transition={{
@@ -25,20 +25,20 @@ const Title = () => {
       {/* Title and Movable Cards */}
       <div className="w-full min-h-screen text-white flex flex-col items-center justify-center">
         <div className="flex flex-row gap-225">
-          <DancingCard size={11} constraints={[-150, -320, 1400, 650]} />
-          <DancingCard size={11} constraints={[-150, -1400, 320, 650]} />
+          <DancingCard size={175} constraints={[-150, -320, 1400, 650]} />
+          <DancingCard size={175} constraints={[-150, -1400, 320, 650]} />
         </div>
         <div className="flex flex-row gap-60">
-          <DancingCard size={11} constraints={[-325, -160, 1560, 475]} />
-          <h1 className="font-serif tracking-wide text-8xl font-semibold text-center mb-10">
+          <DancingCard size={175} constraints={[-325, -160, 1560, 475]} />
+          <h1 className="font-serif tracking-wide text-8xl font-semibold text-center">
             Virtual Casino
           </h1>
-          <DancingCard size={11} constraints={[-325, -1560, 160, 475]} />
+          <DancingCard size={175} constraints={[-325, -1560, 160, 475]} />
         </div>
 
         <div className="flex flex-row gap-225">
-          <DancingCard size={11} constraints={[-500, -320, 1400, 300]} />
-          <DancingCard size={11} constraints={[-500, -1400, 320, 300]} />
+          <DancingCard size={175} constraints={[-500, -320, 1400, 300]} />
+          <DancingCard size={175} constraints={[-500, -1400, 320, 300]} />
         </div>
 
         <div className="flex gap-50">

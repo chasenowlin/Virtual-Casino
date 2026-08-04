@@ -6,7 +6,8 @@ const DancingCard = ({ size, constraints }) => {
       src="src/assets/card-back.png"
       className="opacity-90"
       style={{
-        width: `${size}em`,
+        width: `${size}px`,
+        height: `${size}px`,
       }}
       drag
       dragConstraints={{
