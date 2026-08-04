@@ -1,31 +1,59 @@
-import { motion } from "motion/react";
+import { motion, useAnimate } from "motion/react";
 
-const DancingCard = ({ size, constraints }) => {
+const DancingCard = ({ size }) => {
+  const [scope, animate] = useAnimate();
+
   return (
     <motion.img
       src="src/assets/card-back.png"
-      className="opacity-90"
+      ref={scope}
       style={{
         width: `${size}px`,
         height: `${size}px`,
       }}
-      drag
-      dragConstraints={{
-        top: constraints[0],
-        left: constraints[1],
-        right: constraints[2],
-        bottom: constraints[3],
-      }}
-      dragElastic={0.9}
-      draggable={false}
+      // Wiggle and bob animation
       animate={{
         rotate: [0, 3, -3, 0],
         y: [0, -5, 0],
+        transition: {
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+        },
       }}
-      transition={{
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut",
+      // Drag Controls
+      drag
+      dragConstraints={{ top: -1, left: -1, right: 1, bottom: 1 }}
+      dragElastic={1}
+      draggable={false}
+      whileDrag={{
+        scale: 2,
+        transition: {
+          duration: 1,
+          ease: "easeInOut",
+        },
+      }}
+      onDragEnd={(e) => {
+        animate(
+          scope.current,
+          {
+            rotate: [0, 360],
+            scale: 1,
+          },
+          {
+            duration: 0.6,
+            easing: "ease-in-out",
+          },
+        );
+      }}
+      // Exit animation
+      exit={{
+        y: "-200vh",
+        opacity: 0,
+        transition: {
+          duration: 2,
+          ease: "easeInOut",
+        },
       }}
     />
   );
