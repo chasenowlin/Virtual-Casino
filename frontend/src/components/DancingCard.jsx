@@ -7,6 +7,28 @@ const DancingCard = ({ size, suit, leaving }) => {
   const waiting = useRef(false);
 
   useEffect(() => {
+    animate(scope.current, { x: 0 }, { duration: 2 });
+
+    // Wiggle and bob animation
+    setTimeout(
+      () =>
+        animate(
+          scope.current,
+          {
+            rotate: [0, 3, -3, 0],
+            y: [0, -5, 0],
+          },
+          {
+            duration: 2,
+            repeat: Infinity,
+            easing: "ease-in-out",
+          },
+        ),
+      2000,
+    );
+  }, []);
+
+  useEffect(() => {
     if (leaving) {
       dragging.current = true;
 
@@ -30,21 +52,12 @@ const DancingCard = ({ size, suit, leaving }) => {
               : "src/assets/diamond-ace.png"
       }
       ref={scope}
-      className="border-6 border-black/95 rounded-xl bg-contain bg-no-repeat cursor-pointer"
+      className="border-6 border-black/95 rounded-xl bg-contain bg-no-repeat cursor-pointer shadow-2xl"
       style={{
         width: `${size * 335}px`,
         height: `${size * 492}px`,
       }}
-      // Wiggle and bob animation
-      animate={{
-        rotate: [0, 3, -3, 0],
-        y: [0, -5, 0],
-        transition: {
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut",
-        },
-      }}
+      initial={{ x: suit === "s" || suit === "h" ? -2000 : 2000 }}
       // Drag Controls
       drag
       dragConstraints={{ top: -1, left: -1, right: 1, bottom: 1 }}

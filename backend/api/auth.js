@@ -19,7 +19,7 @@ router.post("/signup", async (req, res) => {
     }
 
     // Hash password
-    const hashedPassword = bcrypt.hashSynce(password, 10);
+    const hashedPassword = bcrypt.hashSync(password, 10);
 
     // Create user in database
     await db.query(
