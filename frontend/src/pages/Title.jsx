@@ -78,7 +78,7 @@ const Title = () => {
                       ease: "easeInOut",
                     },
                   }}
-                  className="font-[Consolas] tracking-wide text-8xl font-semibold text-center p-5 text-sky-700 rounded-4xl border-7 border-black bg-yellow-50/70"
+                  className="font-[Consolas] tracking-wide text-8xl font-semibold text-center p-5 text-sky-700 rounded-4xl border-7 border-black bg-yellow-50/70 cursor-default"
                 >
                   Virtual Casino
                 </motion.div>

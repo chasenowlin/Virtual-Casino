@@ -230,7 +230,7 @@ const Login = () => {
 
               {/* SUBMIT chip */}
               <motion.div
-                className="w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                className={`w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl ${message ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
                 onClick={(e) => handleLogin(e)}
                 initial={{ y: "200vh" }}
                 animate={{
@@ -241,8 +241,8 @@ const Login = () => {
                   },
                 }}
                 whileHover={{
-                  scale: 1.2,
-                  rotate: 360,
+                  scale: message ? 1.0 : 1.2,
+                  rotate: message ? 35 : 360,
                   transition: {
                     duration: 0.2,
                   },
