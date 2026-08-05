@@ -3,8 +3,8 @@ import { useState, useRef, useEffect } from "react";
 
 const DancingCard = ({ size, suit, leaving }) => {
   const [scope, animate] = useAnimate();
-  const dragging = useRef(false);
-  const waiting = useRef(false);
+  const [dragging, setDragging] = useState(false);
+  const timeoutId = useRef("");
 
   useEffect(() => {
     animate(scope.current, { x: 0 }, { duration: 2 });
@@ -16,7 +16,6 @@ const DancingCard = ({ size, suit, leaving }) => {
           scope.current,
           {
             rotate: [0, 3, -3, 0],
-            y: [0, -5, 0],
           },
           {
             duration: 2,
@@ -29,9 +28,13 @@ const DancingCard = ({ size, suit, leaving }) => {
   }, []);
 
   useEffect(() => {
-    if (leaving) {
-      dragging.current = true;
+    if (dragging === true) {
+      clearTimeout(timeoutId.current);
+    }
+  }, [dragging]);
 
+  useEffect(() => {
+    if (leaving) {
       animate(
         scope.current,
         { y: "-200vh", opacity: 0 },
@@ -63,15 +66,21 @@ const DancingCard = ({ size, suit, leaving }) => {
       dragConstraints={{ top: -1, left: -1, right: 1, bottom: 1 }}
       dragElastic={1}
       draggable={false}
-      whileDrag={{
-        scale: 2,
-        transition: {
-          duration: 1,
-          ease: "easeInOut",
-        },
+      onPointerDown={(e) => {
+        setDragging(true);
+        scope.current.style.zIndex = 99;
+        animate(
+          scope.current,
+          {
+            scale: 2,
+          },
+          {
+            duration: 1,
+            easing: "ease-in-out",
+          },
+        );
       }}
-      onDragStart={(e) => (dragging.current = true)}
-      onDragEnd={(e) => {
+      onPointerUp={(e) => {
         animate(
           scope.current,
           {
@@ -83,28 +92,21 @@ const DancingCard = ({ size, suit, leaving }) => {
             easing: "ease-in-out",
           },
         );
-        dragging.current = false;
-
-        if (waiting.current === false) {
-          waiting.current = true;
-          setTimeout(() => {
-            if (!dragging.current) {
-              animate(
-                scope.current,
-                {
-                  rotate: [0, 3, -3, 0],
-                  y: [0, -5, 0],
-                },
-                {
-                  duration: 2,
-                  repeat: Infinity,
-                  easing: "ease-in-out",
-                },
-              );
-            }
-            waiting.current = false;
-          }, 2500);
-        }
+        setDragging(false);
+        timeoutId.current = setTimeout(() => {
+          animate(
+            scope.current,
+            {
+              rotate: [0, 3, -3, 0],
+            },
+            {
+              duration: 2,
+              repeat: Infinity,
+              easing: "ease-in-out",
+            },
+          );
+          scope.current.style.zIndex = "auto";
+        }, 750);
       }}
     />
   );
