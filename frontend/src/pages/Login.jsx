@@ -13,7 +13,7 @@ const Login = () => {
   // Message dropdown
   useEffect(() => {
     if (message) {
-      setTimeout(() => setMessage(""), 5000);
+      setTimeout(() => setMessage(""), 3000);
     }
   }, [message]);
 

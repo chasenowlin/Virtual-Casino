@@ -6,7 +6,7 @@ const db = require("../config/db");
 // Create endpoint for signup
 router.post("/signup", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
 
     // Check to see if email already in use
     const [existing_accounts] = await db.query(
@@ -23,8 +23,8 @@ router.post("/signup", async (req, res) => {
 
     // Create user in database
     await db.query(
-      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-      [name, email, hashedPassword],
+      "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+      [username, email, hashedPassword],
     );
 
     return res.status(201).json({ message: "Account Created Successfully" });
@@ -64,7 +64,7 @@ router.post("/login", async (req, res) => {
       {
         userId: account.id,
         email: account.email,
-        name: account.name,
+        username: account.username,
         role: account.role,
         exp: Date.now() + 24 * 60 * 60 * 1000,
       },
