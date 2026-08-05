@@ -25,12 +25,12 @@ const Signup = () => {
       return;
     }
     setMessage("");
-    setEmail("");
-    setUsername("");
-    setPassword("");
     setTimeout(() => {
       setExiting(true);
       setTimeout(() => {
+        setEmail("");
+        setUsername("");
+        setPassword("");
         navigate("/" + destination);
       }, 2000);
     }, 1);
@@ -42,6 +42,25 @@ const Signup = () => {
     if (message) {
       return;
     }
+
+    if (!username || !email || !password) {
+      setMessage("All fields are required");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setMessage("Please enter a valid email address.");
+      return;
+    }
+
+    if (password.length < 8 || password.includes(" ")) {
+      setMessage(
+        "Password must be more than 8 characters and not have spaces.",
+      );
+      return;
+    }
+
     try {
       const res = await fetch(import.meta.env.VITE_API_URL + "auth/signup", {
         method: "POST",
@@ -162,6 +181,13 @@ const Signup = () => {
                     ease: "easeInOut",
                   },
                 }}
+                whileHover={{
+                  scale: 1.05,
+                  transition: {
+                    duration: 0.2,
+                    ease: "easeInOut",
+                  },
+                }}
                 exit={{
                   x: "200vw",
                   opacity: 0,
@@ -170,14 +196,14 @@ const Signup = () => {
                     ease: "easeInOut",
                   },
                 }}
-                className="w-100 h-120 p-10 bg-white border-6 border-black/95 rounded-xl shadow-2xl"
+                className="w-84 h-123 p-10 bg-[url('src/assets/omni-suit.png')] border-6 border-black/95 rounded-xl bg-contain bg-no-repeat"
               >
                 <form
                   noValidate
                   autoComplete="off"
-                  className="flex flex-col gap-4"
+                  className="flex flex-col gap-4  my-15"
                 >
-                  <div className="pb-5">
+                  <div className="pb-3">
                     <label htmlFor="email" className="block text-gray-700 mb-1">
                       Email
                     </label>
@@ -186,11 +212,11 @@ const Signup = () => {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1FB5A8]"
+                      className="w-full border border-gray-300 bg-white rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   </div>
 
-                  <div className="pb-5">
+                  <div className="pb-3">
                     <label
                       htmlFor="username"
                       className="block text-gray-700 mb-1"
@@ -202,11 +228,11 @@ const Signup = () => {
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1FB5A8]"
+                      className="w-full border border-gray-300 bg-white rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   </div>
 
-                  <div className="pb-5">
+                  <div className="pb-3">
                     <label
                       htmlFor="password"
                       className="block text-gray-700 mb-1"
@@ -218,7 +244,7 @@ const Signup = () => {
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1FB5A8]"
+                      className="w-full border border-gray-300 bg-white rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   </div>
                 </form>

@@ -24,11 +24,12 @@ const Login = () => {
       return;
     }
     setMessage("");
-    setEmail("");
-    setPassword("");
+
     setTimeout(() => {
       setExiting(true);
       setTimeout(() => {
+        setEmail("");
+        setPassword("");
         navigate("/" + destination);
       }, 2000);
     }, 1);
@@ -40,6 +41,23 @@ const Login = () => {
     if (message) {
       return;
     }
+
+    if (!email || !password) {
+      setMessage("Email and password are required");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setMessage("Invalid Email or Password");
+      return;
+    }
+
+    if (password.length < 3 || password.includes(" ")) {
+      setMessage("Invalid Email or Password");
+      return;
+    }
+
     try {
       const res = await fetch(import.meta.env.VITE_API_URL + "auth/login", {
         method: "POST",
@@ -157,6 +175,13 @@ const Login = () => {
                     ease: "easeInOut",
                   },
                 }}
+                whileHover={{
+                  scale: 1.05,
+                  transition: {
+                    duration: 0.2,
+                    ease: "easeInOut",
+                  },
+                }}
                 exit={{
                   x: "200vw",
                   opacity: 0,
@@ -165,12 +190,12 @@ const Login = () => {
                     ease: "easeInOut",
                   },
                 }}
-                className="w-100 h-120 p-10 bg-white border-6 border-black/95 rounded-xl shadow-2xl"
+                className="w-84 h-123 p-10 bg-[url('src/assets/omni-suit.png')] border-6 border-black/95 rounded-xl bg-contain bg-no-repeat"
               >
                 <form
                   noValidate
                   autoComplete="off"
-                  className="flex flex-col gap-4"
+                  className="flex flex-col gap-4 my-20"
                 >
                   <div className="pb-5">
                     <label htmlFor="email" className="block text-gray-700 mb-1">
@@ -181,7 +206,7 @@ const Login = () => {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1FB5A8]"
+                      className="w-full border border-gray-300 bg-white rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   </div>
 
@@ -197,7 +222,7 @@ const Login = () => {
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#1FB5A8]"
+                      className="w-full border border-gray-300 bg-white rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   </div>
                 </form>
