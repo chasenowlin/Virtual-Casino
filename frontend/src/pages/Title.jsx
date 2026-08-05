@@ -7,22 +7,26 @@ const Title = () => {
   const navigate = useNavigate();
   const [scope, animate] = useAnimate();
   const [pageChanging, setPageChanging] = useState(false);
+  const [exiting, setExiting] = useState(false);
 
   const changeScreen = (destination) => {
     setPageChanging(true);
-    animate(
-      scope.current,
-      {
-        background: "radial-gradient(circle at top, #35654d 0%, #1e1e1e 80%)",
-      },
-      {
-        duration: 2,
-        easing: "ease-in-out",
-      },
-    );
     setTimeout(() => {
-      navigate("/" + destination);
-    }, 3000);
+      setExiting(true);
+      animate(
+        scope.current,
+        {
+          background: "radial-gradient(circle at top, #35654d 0%, #1e1e1e 80%)",
+        },
+        {
+          duration: 2,
+          easing: "ease-in-out",
+        },
+      );
+      setTimeout(() => {
+        navigate("/" + destination);
+      }, 3000);
+    }, 1);
   };
 
   return (
@@ -51,11 +55,11 @@ const Title = () => {
       className="absolute inset-0 overflow-hidden"
     >
       <AnimatePresence>
-        {!pageChanging && (
+        {!exiting && (
           <div className="w-full min-h-screen text-white flex flex-col items-center justify-center">
             {/* Title and Moving cards */}
             <div className="flex flex-row items-center gap-40 mb-20">
-              <DancingCard size={0.4} suit={"s"} />
+              <DancingCard size={0.4} suit={"s"} leaving={pageChanging} />
               <motion.div
                 exit={{
                   scale: 1.3,
@@ -69,12 +73,12 @@ const Title = () => {
               >
                 Virtual Casino
               </motion.div>
-              <DancingCard size={0.4} suit={"c"} />
+              <DancingCard size={0.4} suit={"c"} leaving={pageChanging} />
             </div>
 
             <div className="flex flex-row items-center gap-200 mb-30">
-              <DancingCard size={0.4} suit={"h"} />
-              <DancingCard size={0.4} suit={"d"} />
+              <DancingCard size={0.4} suit={"h"} leaving={pageChanging} />
+              <DancingCard size={0.4} suit={"d"} leaving={pageChanging} />
             </div>
 
             <div className="flex gap-50">

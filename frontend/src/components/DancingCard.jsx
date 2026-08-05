@@ -1,10 +1,22 @@
 import { motion, useAnimate } from "motion/react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
-const DancingCard = ({ size, suit }) => {
+const DancingCard = ({ size, suit, leaving }) => {
   const [scope, animate] = useAnimate();
   const dragging = useRef(false);
   const waiting = useRef(false);
+
+  useEffect(() => {
+    if (leaving) {
+      dragging.current = true;
+
+      animate(
+        scope.current,
+        { y: "-200vh", opacity: 0 },
+        { duration: 2, easing: "ease-in-out" },
+      );
+    }
+  }, [leaving]);
 
   return (
     <motion.img
@@ -80,15 +92,6 @@ const DancingCard = ({ size, suit }) => {
             waiting.current = false;
           }, 2500);
         }
-      }}
-      // Exit animation
-      exit={{
-        y: "-200vh",
-        opacity: 0,
-        transition: {
-          duration: 2,
-          ease: "easeInOut",
-        },
       }}
     />
   );
