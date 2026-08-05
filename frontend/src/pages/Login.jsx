@@ -73,10 +73,10 @@ const Login = () => {
         {/* Dropdown message */}
         {message && (
           <motion.div
-            initial={{ y: "-50vh", opacity: 0 }}
+            initial={{ y: "-10vh", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: "-100vh", opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            exit={{ y: "-20vh", opacity: 0 }}
+            transition={{ duration: 0.75, ease: "easeInOut" }}
             className="absolute w-full top-0 flex items-center justify-center"
           >
             <h1
