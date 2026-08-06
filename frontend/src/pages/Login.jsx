@@ -23,10 +23,9 @@ const Login = () => {
     if (waiting.current === true) {
       return;
     }
-
+    setMessage("");
     setExiting(true);
     setTimeout(() => {
-      setMessage("");
       setEmail("");
       setPassword("");
       navigate("/" + destination);
@@ -136,7 +135,7 @@ const Login = () => {
             <div className="flex flex-row items-center justify-center gap-50">
               {/* BACK chip */}
               <motion.div
-                className="w-48 h-48 bg-[url('src/assets/red-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                className={`w-48 h-48 bg-[url('src/assets/red-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl ${message === "Login Successful" ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
                 onClick={() => changeScreen("")}
                 initial={{ y: "200vh" }}
                 animate={{
@@ -147,8 +146,8 @@ const Login = () => {
                   },
                 }}
                 whileHover={{
-                  scale: 1.2,
-                  rotate: 360,
+                  scale: message === "Login Successful" ? 1.0 : 1.2,
+                  rotate: message === "Login Successful" ? 35 : 360,
                   transition: {
                     duration: 0.2,
                   },
