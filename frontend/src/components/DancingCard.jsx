@@ -58,9 +58,8 @@ const DancingCard = ({ size, suit, leaving }) => {
       initial={{ x: suit === "s" || suit === "h" ? -2000 : 2000 }}
       // Drag Controls
       drag
-      dragConstraints={{ top: -1, left: -1, right: 1, bottom: 1 }}
+      dragConstraints={{ top: -5, left: -5, right: 5, bottom: 5 }}
       dragElastic={1}
-      draggable={false}
       // Grab Captures
       onDragStart={(e) => {
         scope.current.style.zIndex = 99;

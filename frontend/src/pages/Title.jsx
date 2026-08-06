@@ -93,7 +93,7 @@ const Title = () => {
               <div className="flex gap-50">
                 {/* LOGIN chip */}
                 <motion.div
-                  className="w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                  className="w-48 h-48 bg-[url('src/assets/black-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
                   onClick={() => changeScreen("login")}
                   initial={{ y: "100vh" }}
                   animate={{
@@ -123,7 +123,7 @@ const Title = () => {
 
                 {/* SIGNUP chip */}
                 <motion.div
-                  className="w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                  className="w-48 h-48 bg-[url('src/assets/black-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
                   onClick={() => changeScreen("signup")}
                   initial={{ y: "100vh" }}
                   animate={{

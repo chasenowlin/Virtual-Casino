@@ -136,7 +136,7 @@ const Login = () => {
             <div className="flex flex-row items-center justify-center gap-50">
               {/* BACK chip */}
               <motion.div
-                className="w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                className="w-48 h-48 bg-[url('src/assets/red-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
                 onClick={() => changeScreen("")}
                 initial={{ y: "200vh" }}
                 animate={{
@@ -228,7 +228,7 @@ const Login = () => {
 
               {/* SUBMIT chip */}
               <motion.div
-                className={`w-48 h-48 bg-[url('src/assets/poker-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl ${message ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+                className={`w-48 h-48 bg-[url('src/assets/green-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl ${message ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
                 onClick={(e) => handleLogin(e)}
                 initial={{ y: "200vh" }}
                 animate={{
