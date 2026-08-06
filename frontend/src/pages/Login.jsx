@@ -23,16 +23,14 @@ const Login = () => {
     if (waiting.current === true) {
       return;
     }
-    setMessage("");
 
+    setExiting(true);
     setTimeout(() => {
-      setExiting(true);
-      setTimeout(() => {
-        setEmail("");
-        setPassword("");
-        navigate("/" + destination);
-      }, 2000);
-    }, 1);
+      setMessage("");
+      setEmail("");
+      setPassword("");
+      navigate("/" + destination);
+    }, 2000);
   };
 
   // Submit attempt handler
