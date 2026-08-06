@@ -60,13 +60,14 @@ router.post("/login", async (req, res) => {
     }
 
     // Create JWT token for later authentication
+    const now = Date.now();
     const token = jwt.encode(
       {
         userId: account.id,
         email: account.email,
         username: account.username,
         role: account.role,
-        exp: Date.now() + 24 * 60 * 60 * 1000,
+        exp: now + 24 * 60 * 60 * 1000,
       },
       process.env.JWT_SECRET,
     );
@@ -74,6 +75,13 @@ router.post("/login", async (req, res) => {
     return res.status(200).json({
       message: "Login Successful",
       token: token,
+      account: {
+        userId: account.id,
+        email: account.email,
+        username: account.username,
+        role: account.role,
+        exp: now + 24 * 60 * 60 * 1000,
+      },
     });
   } catch (e) {
     console.error("Login error:", e);

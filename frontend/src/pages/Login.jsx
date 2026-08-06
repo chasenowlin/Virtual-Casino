@@ -69,11 +69,12 @@ const Login = () => {
       // If login successful
       if (res.status === 200) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("account", JSON.stringify(data.account));
         waiting.current = true;
         // wait for message to display
         setTimeout(() => {
           waiting.current = false;
-          changeScreen("/");
+          changeScreen("/home");
         }, 3000);
       }
     } catch (e) {

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion, useAnimate } from "motion/react";
 import DancingCard from "../components/DancingCard.jsx";
 
@@ -8,6 +8,33 @@ const Title = () => {
   const [scope, animate] = useAnimate();
   const [pageChanging, setPageChanging] = useState(false);
   const [exiting, setExiting] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const hasChecked = useRef(false);
+
+  useEffect(() => {
+    if (!hasChecked.current) {
+      checkLoggedIn();
+      hasChecked.current = true;
+    }
+  }, []);
+
+  const checkLoggedIn = async () => {
+    const token = localStorage.getItem("token");
+    const account = localStorage.getItem("account");
+    if (token && account) {
+      setIsLoggedIn(true);
+      console.log(localStorage.getItem("account"));
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("account");
+    changeScreen("/login");
+    setTimeout(() => {
+      setIsLoggedIn(false);
+    }, 1);
+  };
 
   const changeScreen = (destination) => {
     setPageChanging(true);
@@ -90,67 +117,133 @@ const Title = () => {
                 <DancingCard size={0.4} suit={"d"} leaving={pageChanging} />
               </div>
 
-              <div className="flex gap-50">
-                {/* LOGIN chip */}
-                <motion.div
-                  className="w-48 h-48 bg-[url('src/assets/black-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
-                  onClick={() => changeScreen("login")}
-                  initial={{ y: "100vh" }}
-                  animate={{
-                    y: "0px",
-                    transition: {
-                      duration: 2.5,
-                      ease: "easeInOut",
-                    },
-                  }}
-                  whileHover={{
-                    scale: 1.2,
-                    rotate: 360,
-                    transition: {
-                      duration: 0.2,
-                    },
-                  }}
-                  exit={{
-                    y: "50vh",
-                    opacity: 0,
-                    transition: {
-                      duration: 2,
-                    },
-                  }}
-                >
-                  LOGIN
-                </motion.div>
+              {!isLoggedIn && (
+                <div className="flex gap-50">
+                  {/* LOGIN chip */}
+                  <motion.div
+                    className="w-48 h-48 bg-[url('src/assets/black-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                    onClick={() => changeScreen("login")}
+                    initial={{ y: "100vh" }}
+                    animate={{
+                      y: "0px",
+                      transition: {
+                        duration: 2.5,
+                        ease: "easeInOut",
+                      },
+                    }}
+                    whileHover={{
+                      scale: 1.2,
+                      rotate: 360,
+                      transition: {
+                        duration: 0.2,
+                      },
+                    }}
+                    exit={{
+                      y: "50vh",
+                      opacity: 0,
+                      transition: {
+                        duration: 2,
+                      },
+                    }}
+                  >
+                    LOGIN
+                  </motion.div>
 
-                {/* SIGNUP chip */}
-                <motion.div
-                  className="w-48 h-48 bg-[url('src/assets/black-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
-                  onClick={() => changeScreen("signup")}
-                  initial={{ y: "100vh" }}
-                  animate={{
-                    y: "0px",
-                    transition: {
-                      duration: 2.5,
-                      ease: "easeInOut",
-                    },
-                  }}
-                  whileHover={{
-                    scale: 1.2,
-                    rotate: 360,
-                    transition: {
-                      duration: 0.2,
-                    },
-                  }}
-                  exit={{
-                    y: "50vh",
-                    opacity: 0,
-                    transition: {
-                      duration: 2,
-                    },
-                  }}
-                >
-                  SIGNUP
-                </motion.div>
-              </div>
+                  {/* SIGNUP chip */}
+                  <motion.div
+                    className="w-48 h-48 bg-[url('src/assets/black-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                    onClick={() => changeScreen("signup")}
+                    initial={{ y: "100vh" }}
+                    animate={{
+                      y: "0px",
+                      transition: {
+                        duration: 2.5,
+                        ease: "easeInOut",
+                      },
+                    }}
+                    whileHover={{
+                      scale: 1.2,
+                      rotate: 360,
+                      transition: {
+                        duration: 0.2,
+                      },
+                    }}
+                    exit={{
+                      y: "50vh",
+                      opacity: 0,
+                      transition: {
+                        duration: 2,
+                      },
+                    }}
+                  >
+                    SIGNUP
+                  </motion.div>
+                </div>
+              )}
+
+              {isLoggedIn && (
+                <div className="flex gap-50">
+                  {/* LOGOUT chip */}
+                  <motion.div
+                    className="w-48 h-48 bg-[url('src/assets/red-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                    onClick={() => handleLogout()}
+                    initial={{ y: "100vh" }}
+                    animate={{
+                      y: "0px",
+                      transition: {
+                        duration: 2.5,
+                        ease: "easeInOut",
+                      },
+                    }}
+                    whileHover={{
+                      scale: 1.2,
+                      rotate: 360,
+                      transition: {
+                        duration: 0.2,
+                      },
+                    }}
+                    exit={{
+                      y: "50vh",
+                      opacity: 0,
+                      transition: {
+                        duration: 2,
+                      },
+                    }}
+                  >
+                    LOGOUT
+                  </motion.div>
+
+                  {/* PLAY chip */}
+                  <motion.div
+                    className="w-48 h-48 bg-[url('src/assets/green-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                    onClick={() => changeScreen("home")}
+                    initial={{ y: "100vh" }}
+                    animate={{
+                      y: "0px",
+                      transition: {
+                        duration: 2.5,
+                        ease: "easeInOut",
+                      },
+                    }}
+                    whileHover={{
+                      scale: 1.2,
+                      rotate: 360,
+                      transition: {
+                        duration: 0.2,
+                      },
+                    }}
+                    exit={{
+                      y: "50vh",
+                      opacity: 0,
+                      transition: {
+                        duration: 2,
+                      },
+                    }}
+                  >
+                    PLAY
+                  </motion.div>
+                </div>
+              )}
             </div>
           )}
         </AnimatePresence>
