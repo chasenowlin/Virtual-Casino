@@ -3,10 +3,7 @@ import { useState, useRef, useEffect } from "react";
 
 const DancingCard = ({ size, suit, leaving }) => {
   const [scope, animate] = useAnimate();
-  const [dragging, setDragging] = useState(false);
-  const handledDown = useRef(false);
-  const handledUp = useRef(false);
-  const timeoutId = useRef("");
+  const [noTouch, setNoTouch] = useState(false);
 
   useEffect(() => {
     animate(scope.current, { x: 0 }, { duration: 2 });
@@ -29,16 +26,10 @@ const DancingCard = ({ size, suit, leaving }) => {
     );
   }, []);
 
-  // If grabbed, erase rewiggle timer
-  useEffect(() => {
-    if (dragging === true) {
-      clearTimeout(timeoutId.current);
-    }
-  }, [dragging]);
-
   // If parent component is deleted
   useEffect(() => {
     if (leaving) {
+      setNoTouch(true);
       animate(
         scope.current,
         { y: "-200vh", opacity: 0 },
@@ -59,7 +50,7 @@ const DancingCard = ({ size, suit, leaving }) => {
               : "src/assets/diamond-ace.png"
       }
       ref={scope}
-      className="border-6 border-black/95 rounded-xl bg-contain bg-no-repeat cursor-pointer shadow-2xl"
+      className={`border-6 border-black/95 rounded-xl bg-contain bg-no-repeat cursor-pointer shadow-2xl ${noTouch ? "pointer-events-none" : "pointer-events-auto"}`}
       style={{
         width: `${size * 335}px`,
         height: `${size * 492}px`,
@@ -71,26 +62,7 @@ const DancingCard = ({ size, suit, leaving }) => {
       dragElastic={1}
       draggable={false}
       // Grab Captures
-      onPointerDownCapture={(e) => {
-        handledUp.current = false;
-        handledDown.current = true;
-        setDragging(true);
-        scope.current.style.zIndex = 99;
-        animate(
-          scope.current,
-          {
-            scale: 2,
-          },
-          {
-            duration: 1,
-            easing: "ease-in-out",
-          },
-        );
-      }}
       onDragStart={(e) => {
-        handledUp.current = false;
-        if (handledDown.current === true) return;
-        setDragging(true);
         scope.current.style.zIndex = 99;
         animate(
           scope.current,
@@ -104,39 +76,8 @@ const DancingCard = ({ size, suit, leaving }) => {
         );
       }}
       // Release Captures
-      onPointerUpCapture={(e) => {
-        handledDown.current = false;
-        handledUp.current = true;
-        animate(
-          scope.current,
-          {
-            rotate: [0, 360],
-            scale: 1,
-          },
-          {
-            duration: 0.75,
-            easing: "ease-in-out",
-          },
-        );
-        setDragging(false);
-        timeoutId.current = setTimeout(() => {
-          animate(
-            scope.current,
-            {
-              rotate: [0, 3, -3, 0],
-            },
-            {
-              duration: 2,
-              repeat: Infinity,
-              easing: "ease-in-out",
-            },
-          );
-          scope.current.style.zIndex = "auto";
-        }, 750);
-      }}
       onDragEnd={(e) => {
-        handledDown.current = false;
-        if (handledUp.current === true) return;
+        setNoTouch(true);
         animate(
           scope.current,
           {
@@ -148,8 +89,7 @@ const DancingCard = ({ size, suit, leaving }) => {
             easing: "ease-in-out",
           },
         );
-        setDragging(false);
-        timeoutId.current = setTimeout(() => {
+        setTimeout(() => {
           animate(
             scope.current,
             {
@@ -162,36 +102,7 @@ const DancingCard = ({ size, suit, leaving }) => {
             },
           );
           scope.current.style.zIndex = "auto";
-        }, 750);
-      }}
-      onPointerCancelCapture={(e) => {
-        handledDown.current = false;
-        if (handledUp.current === true) return;
-        animate(
-          scope.current,
-          {
-            rotate: [0, 360],
-            scale: 1,
-          },
-          {
-            duration: 0.75,
-            easing: "ease-in-out",
-          },
-        );
-        setDragging(false);
-        timeoutId.current = setTimeout(() => {
-          animate(
-            scope.current,
-            {
-              rotate: [0, 3, -3, 0],
-            },
-            {
-              duration: 2,
-              repeat: Infinity,
-              easing: "ease-in-out",
-            },
-          );
-          scope.current.style.zIndex = "auto";
+          setNoTouch(false);
         }, 750);
       }}
     />
