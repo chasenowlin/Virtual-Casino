@@ -7,7 +7,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const waiting = useRef(false);
+  const [transitioning, setTransitioning] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -21,25 +21,33 @@ const Signup = () => {
   // Screen transition
   const changeScreen = (destination) => {
     // If signup successful, dont allow more transitions
-    if (waiting.current === true) {
-      return;
-    }
-    setMessage("");
-    setExiting(true);
     setTimeout(() => {
-      setEmail("");
-      setUsername("");
-      setPassword("");
-      navigate("/" + destination);
-    }, 2000);
+      setMessage("");
+      setExiting(true);
+      setTimeout(() => {
+        setTransitioning(false);
+        setEmail("");
+        setUsername("");
+        setPassword("");
+        navigate("/" + destination);
+      }, 2000);
+    }, 1);
+  };
+
+  const handleBack = (event) => {
+    if (!transitioning) {
+      setTransitioning(true);
+      changeScreen("");
+    }
   };
 
   // Submit attempt handler
-  async function handleSignup(event) {
+  const handleSignup = async (event) => {
     event.preventDefault();
-    if (message) {
+    if (message || transitioning) {
       return;
     }
+    setTransitioning(true);
 
     if (!username || !email || !password) {
       setMessage("All fields are required");
@@ -70,16 +78,18 @@ const Signup = () => {
         }),
       });
 
+      if (res.status !== 201) {
+        setTransitioning(false);
+      }
+
       const data = await res.json();
       setMessage(data.message);
       console.log(data.message);
 
       // If signup successful
       if (res.status === 201) {
-        waiting.current = true;
         // wait for message to display
         setTimeout(() => {
-          waiting.current = false;
           changeScreen("/login");
         }, 3000);
       }
@@ -87,7 +97,7 @@ const Signup = () => {
       console.log("Error");
       setMessage("An Error has Occurred");
     }
-  }
+  };
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-[radial-gradient(circle_at_top,_#35654d_0%,_#1e1e1e_80%)]">
@@ -142,8 +152,8 @@ const Signup = () => {
             <div className="flex flex-row items-center justify-center gap-50">
               {/* BACK chip */}
               <motion.div
-                className={`w-48 h-48 bg-[url('src/assets/red-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl ${message === "Account Created Successfully" ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
-                onClick={() => changeScreen("")}
+                className={`w-48 h-48 bg-[url('src/assets/red-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl select-none ${transitioning ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+                onClick={() => handleBack()}
                 initial={{ y: "200vh" }}
                 animate={{
                   y: "0px",
@@ -153,8 +163,8 @@ const Signup = () => {
                   },
                 }}
                 whileHover={{
-                  scale: message === "Account Created Successfully" ? 1.0 : 1.2,
-                  rotate: message === "Account Created Successfully" ? 35 : 360,
+                  scale: transitioning ? 1.0 : 1.2,
+                  rotate: transitioning ? 35 : 360,
                   transition: {
                     duration: 0.2,
                   },
@@ -250,7 +260,7 @@ const Signup = () => {
 
               {/* SUBMIT chip */}
               <motion.div
-                className={`w-48 h-48 bg-[url('src/assets/green-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl ${message ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+                className={`w-48 h-48 bg-[url('src/assets/green-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl select-none ${message || transitioning ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
                 onClick={(e) => handleSignup(e)}
                 initial={{ y: "200vh" }}
                 animate={{
@@ -261,8 +271,8 @@ const Signup = () => {
                   },
                 }}
                 whileHover={{
-                  scale: message ? 1.0 : 1.2,
-                  rotate: message ? 35 : 360,
+                  scale: message || transitioning ? 1.0 : 1.2,
+                  rotate: message || transitioning ? 35 : 360,
                   transition: {
                     duration: 0.2,
                   },

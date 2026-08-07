@@ -6,7 +6,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const waiting = useRef(false);
+  const [transitioning, setTransitioning] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -20,24 +20,32 @@ const Login = () => {
   // Screen transition
   const changeScreen = (destination) => {
     // If login successful, dont allow more transitions
-    if (waiting.current === true) {
-      return;
-    }
-    setMessage("");
-    setExiting(true);
     setTimeout(() => {
-      setEmail("");
-      setPassword("");
-      navigate("/" + destination);
-    }, 2000);
+      setMessage("");
+      setExiting(true);
+      setTimeout(() => {
+        setTransitioning(false);
+        setEmail("");
+        setPassword("");
+        navigate("/" + destination);
+      }, 2000);
+    }, 1);
+  };
+
+  const handleBack = (event) => {
+    if (!transitioning) {
+      setTransitioning(true);
+      changeScreen("");
+    }
   };
 
   // Submit attempt handler
-  async function handleLogin(event) {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    if (message) {
+    if (message || transitioning) {
       return;
     }
+    setTransitioning(true);
 
     if (!email || !password) {
       setMessage("Email and password are required");
@@ -62,6 +70,10 @@ const Login = () => {
         body: JSON.stringify({ email: email, password: password }),
       });
 
+      if (res.status !== 200) {
+        setTransitioning(false);
+      }
+
       const data = await res.json();
       setMessage(data.message);
       console.log(data.message);
@@ -70,10 +82,8 @@ const Login = () => {
       if (res.status === 200) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("account", JSON.stringify(data.account));
-        waiting.current = true;
         // wait for message to display
         setTimeout(() => {
-          waiting.current = false;
           changeScreen("/home");
         }, 3000);
       }
@@ -81,7 +91,7 @@ const Login = () => {
       console.log("Error");
       setMessage("An Error has Occurred");
     }
-  }
+  };
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-[radial-gradient(circle_at_top,_#35654d_0%,_#1e1e1e_80%)]">
@@ -136,8 +146,8 @@ const Login = () => {
             <div className="flex flex-row items-center justify-center gap-50">
               {/* BACK chip */}
               <motion.div
-                className={`w-48 h-48 bg-[url('src/assets/red-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl ${message === "Login Successful" ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
-                onClick={() => changeScreen("")}
+                className={`w-48 h-48 bg-[url('src/assets/red-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl select-none ${transitioning ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+                onClick={() => handleBack()}
                 initial={{ y: "200vh" }}
                 animate={{
                   y: "0px",
@@ -147,8 +157,8 @@ const Login = () => {
                   },
                 }}
                 whileHover={{
-                  scale: message === "Login Successful" ? 1.0 : 1.2,
-                  rotate: message === "Login Successful" ? 35 : 360,
+                  scale: transitioning ? 1.0 : 1.2,
+                  rotate: transitioning ? 35 : 360,
                   transition: {
                     duration: 0.2,
                   },
@@ -228,7 +238,7 @@ const Login = () => {
 
               {/* SUBMIT chip */}
               <motion.div
-                className={`w-48 h-48 bg-[url('src/assets/green-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl ${message ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+                className={`w-48 h-48 bg-[url('src/assets/green-chip.png')] bg-contain bg-no-repeat flex items-center justify-center text-black font-bold text-2xl select-none ${message || transitioning ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
                 onClick={(e) => handleLogin(e)}
                 initial={{ y: "200vh" }}
                 animate={{
@@ -239,8 +249,8 @@ const Login = () => {
                   },
                 }}
                 whileHover={{
-                  scale: message ? 1.0 : 1.2,
-                  rotate: message ? 35 : 360,
+                  scale: message || transitioning ? 1.0 : 1.2,
+                  rotate: message || transitioning ? 35 : 360,
                   transition: {
                     duration: 0.2,
                   },

@@ -6,7 +6,7 @@ import DancingCard from "../components/DancingCard.jsx";
 const Title = () => {
   const navigate = useNavigate();
   const [scope, animate] = useAnimate();
-  const [pageChanging, setPageChanging] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const hasChecked = useRef(false);
@@ -37,7 +37,7 @@ const Title = () => {
   };
 
   const changeScreen = (destination) => {
-    setPageChanging(true);
+    setTransitioning(true);
     setTimeout(() => {
       setExiting(true);
       animate(
@@ -87,7 +87,7 @@ const Title = () => {
             <div className="w-full min-h-screen text-white flex flex-col items-center justify-center">
               {/* Title and Moving cards */}
               <div className="flex flex-row items-center gap-40 mb-20">
-                <DancingCard size={0.4} suit={"s"} leaving={pageChanging} />
+                <DancingCard size={0.4} suit={"s"} leaving={transitioning} />
                 <motion.div
                   initial={{ y: "-100vh" }}
                   animate={{
@@ -109,19 +109,19 @@ const Title = () => {
                 >
                   Virtual Casino
                 </motion.div>
-                <DancingCard size={0.4} suit={"c"} leaving={pageChanging} />
+                <DancingCard size={0.4} suit={"c"} leaving={transitioning} />
               </div>
 
               <div className="flex flex-row items-center gap-200 mb-10">
-                <DancingCard size={0.4} suit={"h"} leaving={pageChanging} />
-                <DancingCard size={0.4} suit={"d"} leaving={pageChanging} />
+                <DancingCard size={0.4} suit={"h"} leaving={transitioning} />
+                <DancingCard size={0.4} suit={"d"} leaving={transitioning} />
               </div>
 
               {!isLoggedIn && (
                 <div className="flex gap-50">
                   {/* LOGIN chip */}
                   <motion.div
-                    className="w-48 h-48 bg-[url('src/assets/black-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                    className="w-48 h-48 bg-[url('src/assets/black-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl select-none"
                     onClick={() => changeScreen("login")}
                     initial={{ y: "100vh" }}
                     animate={{
@@ -151,7 +151,7 @@ const Title = () => {
 
                   {/* SIGNUP chip */}
                   <motion.div
-                    className="w-48 h-48 bg-[url('src/assets/black-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                    className="w-48 h-48 bg-[url('src/assets/black-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl select-none"
                     onClick={() => changeScreen("signup")}
                     initial={{ y: "100vh" }}
                     animate={{
@@ -185,7 +185,7 @@ const Title = () => {
                 <div className="flex gap-50">
                   {/* LOGOUT chip */}
                   <motion.div
-                    className="w-48 h-48 bg-[url('src/assets/red-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                    className="w-48 h-48 bg-[url('src/assets/red-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl select-none"
                     onClick={() => handleLogout()}
                     initial={{ y: "100vh" }}
                     animate={{
@@ -215,7 +215,7 @@ const Title = () => {
 
                   {/* PLAY chip */}
                   <motion.div
-                    className="w-48 h-48 bg-[url('src/assets/green-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl"
+                    className="w-48 h-48 bg-[url('src/assets/green-chip.png')] bg-contain bg-no-repeat cursor-pointer flex items-center justify-center text-black font-bold text-2xl select-none"
                     onClick={() => changeScreen("home")}
                     initial={{ y: "100vh" }}
                     animate={{
