@@ -49,17 +49,20 @@ const Login = () => {
 
     if (!email || !password) {
       setMessage("Email and password are required");
+      setTransitioning(false);
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setMessage("Invalid Email or Password");
+      setTransitioning(false);
       return;
     }
 
     if (password.length < 3 || password.includes(" ")) {
       setMessage("Invalid Email or Password");
+      setTransitioning(false);
       return;
     }
 
@@ -88,6 +91,7 @@ const Login = () => {
         }, 3000);
       }
     } catch (e) {
+      setTransitioning(false);
       console.log("Error");
       setMessage("An Error has Occurred");
     }
@@ -198,7 +202,7 @@ const Login = () => {
                     ease: "easeInOut",
                   },
                 }}
-                className="w-84 h-123 p-10 bg-[url('src/assets/omni-suit.png')] border-6 border-black/95 rounded-xl bg-contain bg-no-repeat"
+                className="w-84 h-123 p-10 bg-[url('src/assets/omni-suit.png')] border-6 border-black/95 rounded-4xl shadow-2xl bg-contain bg-no-repeat"
               >
                 <form
                   noValidate

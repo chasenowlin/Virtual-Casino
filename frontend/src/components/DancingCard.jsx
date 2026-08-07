@@ -50,7 +50,7 @@ const DancingCard = ({ size, suit, leaving }) => {
               : "src/assets/diamond-ace.png"
       }
       ref={scope}
-      className={`border-6 border-black/95 rounded-xl bg-contain bg-no-repeat cursor-pointer shadow-2xl ${noTouch ? "pointer-events-none" : "pointer-events-auto"}`}
+      className={`border-6 border-black/95 rounded-2xl bg-contain bg-no-repeat cursor-pointer shadow-2xl ${noTouch ? "pointer-events-none" : "pointer-events-auto"}`}
       style={{
         width: `${size * 335}px`,
         height: `${size * 492}px`,

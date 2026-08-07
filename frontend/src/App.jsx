@@ -5,6 +5,9 @@ import Title from "./pages/Title.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import Home from "./pages/Home.jsx";
+import Games from "./pages/Games.jsx";
+import Profile from "./pages/Profile.jsx";
+import Friends from "./pages/Friends.jsx";
 
 const App = () => {
   return (
@@ -16,6 +19,9 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/games" element={<Games />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/friends" element={<Friends />} />
             <Route path="*" element={<Title />} />
           </Routes>
         </main>

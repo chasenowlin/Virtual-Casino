@@ -51,12 +51,14 @@ const Signup = () => {
 
     if (!username || !email || !password) {
       setMessage("All fields are required");
+      setTransitioning(false);
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setMessage("Please enter a valid email address.");
+      setTransitioning(false);
       return;
     }
 
@@ -64,6 +66,7 @@ const Signup = () => {
       setMessage(
         "Password must be more than 8 characters and not have spaces.",
       );
+      setTransitioning(false);
       return;
     }
 
@@ -94,6 +97,7 @@ const Signup = () => {
         }, 3000);
       }
     } catch (e) {
+      setTransitioning(false);
       console.log("Error");
       setMessage("An Error has Occurred");
     }
@@ -204,12 +208,12 @@ const Signup = () => {
                     ease: "easeInOut",
                   },
                 }}
-                className="w-84 h-123 p-10 bg-[url('src/assets/omni-suit.png')] border-6 border-black/95 rounded-xl bg-contain bg-no-repeat"
+                className="w-84 h-123 p-10 bg-[url('src/assets/omni-suit.png')] border-6 border-black/95 rounded-4xl shadow-2xl bg-contain bg-no-repeat"
               >
                 <form
                   noValidate
                   autoComplete="off"
-                  className="flex flex-col gap-4  my-15"
+                  className="flex flex-col gap-4 my-15"
                 >
                   <div className="pb-3">
                     <label htmlFor="email" className="block text-gray-700 mb-1">
