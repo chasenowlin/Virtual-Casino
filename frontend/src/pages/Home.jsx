@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion, useAnimate } from "motion/react";
+import useTimer from "../hooks/useTimer";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -9,13 +10,13 @@ const Home = () => {
   const [transitioning, setTransitioning] = useState(false);
   const [exiting, setExiting] = useState(false);
   const currentDegree = useRef(0);
+  const { startTimer } = useTimer();
 
   useEffect(() => {
     if (!hasChecked.current) {
       hasChecked.current = true;
-      if (!localStorage.getItem("token") || !localStorage.getItem("account")) {
+      if (!localStorage.getItem("token")) {
         navigate("/");
-        return;
       }
     }
   }, []);
@@ -55,10 +56,10 @@ const Home = () => {
   // Screen transition
   const changeScreen = (destination) => {
     // watch animation before exiting
-    setTimeout(() => {
+    startTimer(() => {
       // watching exiting
       setExiting(true);
-      setTimeout(() => {
+      startTimer(() => {
         setTransitioning(false);
         navigate("/" + destination);
       }, 2000);

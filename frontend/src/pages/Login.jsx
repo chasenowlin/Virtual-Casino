@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useState, useEffect, useRef } from "react";
+import useTimer from "../hooks/useTimer";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,21 +10,22 @@ const Login = () => {
   const [transitioning, setTransitioning] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [message, setMessage] = useState("");
+  const { startTimer } = useTimer();
 
   // Message dropdown
   useEffect(() => {
     if (message) {
-      setTimeout(() => setMessage(""), 3000);
+      startTimer(() => setMessage(""), 3000);
     }
   }, [message]);
 
   // Screen transition
   const changeScreen = (destination) => {
     // If login successful, dont allow more transitions
-    setTimeout(() => {
+    startTimer(() => {
       setMessage("");
       setExiting(true);
-      setTimeout(() => {
+      startTimer(() => {
         setTransitioning(false);
         setEmail("");
         setPassword("");
@@ -84,9 +86,8 @@ const Login = () => {
       // If login successful
       if (res.status === 200) {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("account", JSON.stringify(data.account));
         // wait for message to display
-        setTimeout(() => {
+        startTimer(() => {
           changeScreen("/home");
         }, 3000);
       }

@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use("/api/auth", require("./api/auth"));
+app.use("/api/profile", require("./api/profile"));
 
 // Start Backend
 const PORT = process.env.BACKEND_PORT;

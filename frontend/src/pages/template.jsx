@@ -1,18 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion, useAnimate } from "motion/react";
+import useTimer from "../hooks/useTimer";
 
 const template = () => {
   const navigate = useNavigate();
   const hasChecked = useRef(false);
   const [exiting, setExiting] = useState(false);
+  const { startTimer } = useTimer();
 
   useEffect(() => {
     if (!hasChecked.current) {
       hasChecked.current = true;
-      if (!localStorage.getItem("token") || !localStorage.getItem("account")) {
+      if (!localStorage.getItem("token")) {
         navigate("/");
-        return;
       }
     }
   }, []);

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion, useAnimate } from "motion/react";
 import DancingCard from "../components/DancingCard.jsx";
+import useTimer from "../hooks/useTimer.jsx";
 
 const Title = () => {
   const navigate = useNavigate();
@@ -10,35 +11,28 @@ const Title = () => {
   const [exiting, setExiting] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const hasChecked = useRef(false);
+  const { startTimer } = useTimer();
 
   useEffect(() => {
     if (!hasChecked.current) {
-      checkLoggedIn();
       hasChecked.current = true;
+      if (localStorage.getItem("token")) {
+        setIsLoggedIn(true);
+      }
     }
   }, []);
 
-  const checkLoggedIn = async () => {
-    const token = localStorage.getItem("token");
-    const account = localStorage.getItem("account");
-    if (token && account) {
-      setIsLoggedIn(true);
-      console.log(localStorage.getItem("account"));
-    }
-  };
-
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("account");
     changeScreen("/login");
-    setTimeout(() => {
+    startTimer(() => {
       setIsLoggedIn(false);
     }, 1);
   };
 
   const changeScreen = (destination) => {
     setTransitioning(true);
-    setTimeout(() => {
+    startTimer(() => {
       setExiting(true);
       animate(
         scope.current,
@@ -50,7 +44,7 @@ const Title = () => {
           easing: "ease-in-out",
         },
       );
-      setTimeout(() => {
+      startTimer(() => {
         navigate("/" + destination);
       }, 3000);
     }, 1);
